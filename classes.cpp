@@ -1,7 +1,11 @@
 #include "classes.h"
 #include <iostream>
 #include <string>
-Game::Game(int currentHour, int currentDayHour) {
+#include <vector> 
+
+Game::Game(Player player, std::vector<Worker> workers, int currentHour, int currentDayHour) {
+    mainUser = player;
+    collectedWorkers = workers;
     gameTime = currentHour;
     dayHour = currentDayHour;
 }
@@ -11,6 +15,14 @@ int Game::getCurrentHour() {
 int Game::getCurrentDayHour() {
     return dayHour;
 }
+void Game::displayGameInfo() {
+    std::cout << "~~~~~~~~GAME INFO~~~~~~~~~" << std::endl;
+    std::cout << "Player Name: " << mainUser.getName() << std::endl;
+    std::cout << "Player Money: " << mainUser.getMoney() << std::endl;
+    std::cout << "Time Elapsed: " << getCurrentHour() << " hours" << std::endl;
+    std::cout << "Current Day Hour: " << getCurrentDayHour() << std::endl;
+}
+
 void Game::setGameTime(int newTime) {
     gameTime = newTime;
 }
@@ -22,6 +34,9 @@ void Game::resetCurrentDayHour() {
 Player::Player(std::string name, int currentMoney) {
     playerName = name;
     playerMoney = currentMoney;
+}
+std::string Player::getName() {
+    return playerName;
 }
 int Player::getMoney() {
     return playerMoney;
