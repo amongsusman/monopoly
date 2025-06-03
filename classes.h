@@ -2,15 +2,21 @@
 #define CLASSES_H
 #include <iostream>
 #include <string>
+#include <vector>
+
+// need to fix errors with game constructor 
 
 class Game {
 public:
-    Game(int currentHour, int currentDayHour);
+    Game(const Player& player, const std::vector<Worker>& workers, int currentHour, int currentDayHour);
     int getCurrentHour();
     int getCurrentDayHour();
+    void displayGameInfo();
     void setGameTime(int newTime);
     void resetCurrentDayHour();
 private:
+    Player mainUser;
+    std::vector<Worker> collectedWorkers;
     int gameTime;
     int dayHour;
 };
