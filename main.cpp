@@ -7,12 +7,22 @@ Extra: ?
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <vector>
 #include "classes.h"
 #include "classes.cpp"
 int main() {
     std::cout << "~~~~~~~~MONOPOLY SIMULATOR~~~~~~~~" << std::endl;
+
     std::string name;
     std::cout << "What is your name?" << std::endl;
     std::getline(std::cin, name);
-    Player user(name, 0);
+
+    Game newGame{Player(name, 0), {}, 0, 1};
+    bool run = true;
+
+    while (run) {
+        newGame.displayGameInfo();
+        std::cout << "\033[2J" << std::endl;
+    }
+    return 0;
 }
