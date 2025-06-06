@@ -32,16 +32,19 @@ int main() {
             newGame.updateGame();
             std::cout << "\033[2J" << std::endl;
         }
-        char c = _getch(); // Get the key
+        char c = _getch(); 
         switch (c) {
             case 'b': {
-                
+                newGame.rollWorker();
+                while (!_kbhit()) {
+                    newGame.updateGame();
+                }
                 break;
             }
             case 'd': { 
+                newGame.displayWorkers();
                 while (!_kbhit()) {
-                    newGame.updateGame();
-                    newGame.displayWorkers();
+                    newGame.updateGame();   
                 }
                 break;
             }

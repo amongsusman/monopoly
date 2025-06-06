@@ -16,3 +16,18 @@ void Worker::getWorkerInfo() {
     std::cout << endTime << std::endl;
     std::cout << moneyPerHour << std::endl;
 }
+std::string Worker::getWorkerName() {
+    return workerName;
+}
+int Worker::getWorkerLevel() {
+    return workerLevel;
+}
+int Worker::getStartTime() {
+    return startTime;
+}
+int Worker::getEndTime() {
+    return endTime;
+}
+int Worker::getMoneyPerHour() {
+    return moneyPerHour;
+}

@@ -21,6 +21,7 @@ public:
     void updateGame();
     void addWorker(Worker newWorker);
     void rollWorker();
+    void makeMoney();
 private:
     Player mainUser;
     std::vector<Worker> collectedWorkers;

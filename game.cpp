@@ -3,6 +3,8 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <ctime>
+#include <algorithm>
 #include "player.h"
 #include "worker.h"
 #include "game.h"
@@ -55,6 +57,7 @@ void Game::displayWorkers() {
 }
 void Game::updateGame() {
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    makeMoney();
     setGameTime(getGameTime() + 1);
     setCurrentDayHour(getCurrentDayHour() + 1);
     resetCurrentDayHour();
@@ -62,21 +65,38 @@ void Game::updateGame() {
 void Game::addWorker(Worker newWorker) {
     collectedWorkers.push_back(newWorker);
 }
-/*void Game::rollWorker() {
+void Game::rollWorker() {
+    srand(time(nullptr));
     int n = possibleWorkers.size();
     int rolls = rand() % (n * 2) + 5;
     int delay = rolls * 50;
     for (int i = 0; i < rolls; i++) {
+        std::cout << "\033[2J" << std::endl;
+        if (i == 0) {
+            std::cout << possibleWorkers[n - 1] << " ";
+        }
+        else {
+            std::cout << possibleWorkers[(i - 1) % n] << " ";
+        }
         std::cout << possibleWorkers[i % n] << " ";
         std::cout << possibleWorkers[(i + 1) % n] << " ";
-        std::cout << possibleWorkers[(i + 2) % n] << " ";
         std::cout << "" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(delay));
         delay -= 50;
     }
-    std::string rolledWorkerName = possibleWorkers[rolls % n];
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::string rolledWorkerName = possibleWorkers[(rolls - 1) % n];
     int level = rand() % 100 + 1;
-
-    Worker rolledWorker(rolledWorkerName, )
+    int start = rand() % 24 + 1;
+    int end = rand() % (24 - start) + start;
+    int money = rand() % 200 + 50;
+    Worker rolledWorker(rolledWorkerName, level, start, end, money);
     addWorker(rolledWorker);
-}*/
+}
+void Game::makeMoney() {
+    for (Worker w: collectedWorkers) {
+        if (w.getStartTime() <= getCurrentDayHour() && getCurrentDayHour() <= w.getEndTime()) {
+            mainUser.addMoney(w.getWorkerLevel() * w.getMoneyPerHour());
+        }
+    }
+}
