@@ -88,7 +88,7 @@ void Game::rollWorker() {
     std::string rolledWorkerName = possibleWorkers[(rolls - 1) % n];
     int level = rand() % 100 + 1;
     int start = rand() % 24 + 1;
-    int end = rand() % (24 - start) + start;
+    int end = rand() % (25 - start) + start;
     int money = rand() % 200 + 50;
     Worker rolledWorker(rolledWorkerName, level, start, end, money);
     addWorker(rolledWorker);
