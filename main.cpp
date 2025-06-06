@@ -8,21 +8,47 @@ Extra: ?
 #include <ctime>
 #include <string>
 #include <vector>
-#include "classes.h"
-#include "classes.cpp"
+#include <chrono>
+#include <thread>
+#include <conio.h>
+#include "game.h"
+#include "player.h"
+#include "worker.h"
+
 int main() {
     std::cout << "~~~~~~~~MONOPOLY SIMULATOR~~~~~~~~" << std::endl;
-
+    
     std::string name;
     std::cout << "What is your name?" << std::endl;
     std::getline(std::cin, name);
-
-    Game newGame{Player(name, 0), {}, 0, 1};
+    Player newPlayer(name, 0);
+    std::vector<Worker> workers = {};
+    Game newGame(newPlayer, workers, 0, 1);
     bool run = true;
 
     while (run) {
-        newGame.displayGameInfo();
-        std::cout << "\033[2J" << std::endl;
+        while (!_kbhit()) {
+            newGame.displayGameInfo();
+            newGame.updateGame();
+            std::cout << "\033[2J" << std::endl;
+        }
+        char c = _getch(); // Get the key
+        switch (c) {
+            case 'b': {
+                
+                break;
+            }
+            case 'd': { 
+                while (!_kbhit()) {
+                    newGame.updateGame();
+                    newGame.displayWorkers();
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
     return 0;
 }
