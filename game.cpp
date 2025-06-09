@@ -57,6 +57,7 @@ void Game::displayWorkers() {
 }
 void Game::updateGame() {
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    simulateTermination();
     makeMoney();
     setGameTime(getGameTime() + 1);
     setCurrentDayHour(getCurrentDayHour() + 1);
@@ -66,10 +67,20 @@ void Game::addWorker(Worker newWorker) {
     collectedWorkers.push_back(newWorker);
 }
 void Game::rollWorker() {
+    if (mainUser.getMoney() >= 10000) {
+        std::cout << "Rolling worker..." << std::endl;
+        mainUser.addMoney(-10000);
+    }
+    else {
+        std::cout << "Sorry, you don't have enough to hire another worker." << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        return;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     srand(time(nullptr));
     int n = possibleWorkers.size();
     int rolls = rand() % (n * 2) + 5;
-    int delay = rolls * 50;
+    int delay = 0;
     for (int i = 0; i < rolls; i++) {
         std::cout << "\033[2J" << std::endl;
         if (i == 0) {
@@ -78,11 +89,11 @@ void Game::rollWorker() {
         else {
             std::cout << possibleWorkers[(i - 1) % n] << " ";
         }
-        std::cout << possibleWorkers[i % n] << " ";
+        std::cout << "\e[0;32m" + possibleWorkers[i % n] + "\e[0;37m" << " ";
         std::cout << possibleWorkers[(i + 1) % n] << " ";
         std::cout << "" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-        delay -= 50;
+        delay += (1000 / rolls);
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     std::string rolledWorkerName = possibleWorkers[(rolls - 1) % n];
@@ -94,9 +105,17 @@ void Game::rollWorker() {
     addWorker(rolledWorker);
 }
 void Game::makeMoney() {
+    mainUser.addMoney(100);
     for (Worker w: collectedWorkers) {
         if (w.getStartTime() <= getCurrentDayHour() && getCurrentDayHour() <= w.getEndTime()) {
             mainUser.addMoney(w.getWorkerLevel() * w.getMoneyPerHour());
         }
+    }
+}
+void Game::simulateTermination() {
+    srand(time(nullptr));
+    int randNum = rand() % 50;
+    if (randNum == 0) {
+        collectedWorkers.pop_back();
     }
 }

@@ -22,10 +22,11 @@ public:
     void addWorker(Worker newWorker);
     void rollWorker();
     void makeMoney();
+    void simulateTermination();
 private:
     Player mainUser;
     std::vector<Worker> collectedWorkers;
-    const std::vector<std::string> possibleWorkers = {"Bill", "Gordon", "Joey", "Samanatha", "Tyler", "Simpson", "AJ", "Joe", "Noah", "Akhil", "Shrihan", "Stephanie", "Dr. Seuss"};
+    const std::vector<std::string> possibleWorkers = {"Bill", "Gordon", "Joey", "Samantha", "Tyler", "Simpson", "AJ", "Joe", "Noah", "Akhil", "Shrihan", "Stephanie", "Dr. Seuss", "Jim", "Jorge", "Johnny", "Simon", "Nicole", "Kate", "Kimmy", "Bianca", "Chloe"};
     int gameTime;
     int dayHour;
 };

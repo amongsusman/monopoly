@@ -2,7 +2,7 @@
 Name: Tyler Zhang
 Program Name: Monopoly Simulator
 Date: 5/30/25
-Extra: ?
+Extra: None
 */
 #include <iostream>
 #include <ctime>
@@ -25,7 +25,8 @@ int main() {
     std::vector<Worker> workers = {};
     Game newGame(newPlayer, workers, 0, 1);
     bool run = true;
-
+    std::cout << "Press 'b' to hire a worker and 'd' to display the workers you have. Have fun!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     while (run) {
         while (!_kbhit()) {
             newGame.displayGameInfo();
@@ -36,15 +37,13 @@ int main() {
         switch (c) {
             case 'b': {
                 newGame.rollWorker();
-                while (!_kbhit()) {
-                    newGame.updateGame();
-                }
                 break;
             }
             case 'd': { 
                 newGame.displayWorkers();
+                std::cout << "Press any button to return to Game Info." << std::endl;
                 while (!_kbhit()) {
-                    newGame.updateGame();   
+                    newGame.updateGame();
                 }
                 break;
             }
@@ -54,4 +53,4 @@ int main() {
         }
     }
     return 0;
-}
+} 
